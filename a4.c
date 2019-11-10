@@ -53,6 +53,50 @@ int numify(char* str, int max) {
 	return new;
 }
 
+void dater(char* str, int *month, int *day, int *year) {
+	int multi = 10;
+	int numSlash = 0;
+	
+	int size = strlen(str);
+	int i = 0;
+	int j = 0;
+	
+	for(i = 0; i < size; i++) {
+		
+		
+		
+		if(!numSlash) {
+			*month = multi * str[i];
+			multi = multi / 10;
+			
+		} else if (numSlash == 1) {
+			*day = multi * str[i];
+			multi = multi / 10;
+			
+		} else if (numSlash == 2) {
+			*year = multi * str[i];
+			multi = multi / 10;
+			
+		}
+		
+		
+		if(str[i] == '/') {
+			numSlash++;
+			multi = 10;
+			
+			if(numSlash == 2) {
+				multi = 1000;
+			}
+			
+		}
+		
+		
+		
+	}
+	
+	
+}
+
 int hash1(char* str, int max) {
 	int i = 0;
 	int j = str[0];
@@ -90,16 +134,15 @@ int hash1(char* str, int max) {
 }
 
 int hash2(char* str, int max) {
-	int h1 = hash1(str, max);
 	int new = 0;
+	int num = numify(str, max);
+	
+	new = num;
 	
 	
-	
-	
-	
-	
-	return numify(str, max);
+	return new;
 }
+
 int hash3(char* str, int max) {
-	return hash1(str, max);
+	return numify(str, max);
 }
