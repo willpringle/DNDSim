@@ -1,0 +1,4 @@
+| Method                   | Description                                                  | Instance Variables        | Class Methods | Other Methods | Line count |
+|--------------------------|--------------------------------------------------------------|---------------------------|---------------|---------------|------------|
+| Table()                  | Constructor for the table class.                             |                           |               |               | 1          |
+| getDescription(final  i) | Returns the description of a passage section based on a roll | intdescriptiondescription |               |               | 26         |
