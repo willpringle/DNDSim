@@ -15,7 +15,6 @@ import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.control.ListView;
 import javafx.scene.layout.*;
-import javafx.stage.Popup;
 import javafx.stage.Stage;
 
 
@@ -34,7 +33,7 @@ public class GuiDemo<toReturn> extends Application {
 	/**
 	 * Popup used for the descriptions.
 	 */
-    private Popup descriptionPane;
+    private DescriptionPopup descriptionPane;
 	
 	/**
 	 * The stage that is passed in on initialization.
@@ -55,7 +54,7 @@ public class GuiDemo<toReturn> extends Application {
 		
         /* Border Panes have  top, left, right, center and bottom sections */
         root = setUpRoot();
-        descriptionPane = createPopUp(200, 300, "please click on a space");
+        descriptionPane = new DescriptionPopup(200, 300, "please click on a space");
         Scene scene = new Scene(root, 600, 300);
         primaryStage.setTitle("Dungeon");
         primaryStage.setScene(scene);
@@ -113,13 +112,13 @@ public class GuiDemo<toReturn> extends Application {
         Button showButton = createButton("Show Description", "-fx-background-color: #FFFFFF; ");
         showButton.setOnAction((ActionEvent event) -> {
 			
-            descriptionPane.show(primaryStage);
+            descriptionPane.getPopup().show(primaryStage);
         });
         temp.getChildren().add(showButton);
         /*this button listener is an example of getting data from the controller */
         Button hideButton = createButton("Hide Description", "-fx-background-color: #FFFFFF; ");
         hideButton.setOnAction((ActionEvent event) -> {
-            descriptionPane.hide();
+            descriptionPane.getPopup().hide();
             changeDescriptionText(theController.getNewDescription());
         });
         temp.getChildren().add(hideButton);
@@ -127,19 +126,6 @@ public class GuiDemo<toReturn> extends Application {
 
     }
 
-    /* an example of a popup area that can be set to nearly any
-    type of node
-     */
-    private Popup createPopUp(int x, int y, String text) {
-        Popup popup = new Popup();
-        popup.setX(x);
-        popup.setY(y);
-        TextArea textA = new TextArea(text);
-        popup.getContent().addAll(textA);
-        textA.setMinWidth(80);
-        textA.setMinHeight(50);
-        return popup;
-    }
 
     /*generic button creation method ensure that all buttons will have a
     similar style and means that the style only need to be in one place
@@ -152,7 +138,7 @@ public class GuiDemo<toReturn> extends Application {
     }
 
     private void changeDescriptionText(String text) {
-        ObservableList<Node> list = descriptionPane.getContent();
+        ObservableList<Node> list = descriptionPane.getPopup().getContent();
         for (Node t : list) {
             if (t instanceof TextArea) {
                 TextArea temp = (TextArea) t;
