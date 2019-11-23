@@ -6,29 +6,39 @@ import wpringle.*;
 public class Controller {
 	private Level myLevel;
 	private GuiDemo myGui;
+	private String description;
 
-
-    public Controller(GuiDemo theGui){
+    public Controller (GuiDemo theGui) {
         myGui = theGui;
         myLevel = new Level();
+		description = "";
     }
 
+	// TODO change name of method to getChamberList or maybe even getSpaceList
     public ArrayList<String> getNameList(){
-        
-		ArrayList<String> dude = new ArrayList<>();
+        // get the chambers
+		ArrayList<Chamber> chambers = new ArrayList<>();
+		chambers = myLevel.getChamberList();
 		
-		dude.add(myLevel.getDescription());
+		// create a vairbale to return
+		ArrayList<String> nameList = new ArrayList<>();
 		
-        return dude;
+		// add the name of the chambers to the list
+		for (int i = 0; i < chambers.size(); i++) {
+			nameList.add("Chamber " + i);
+		}
+		
+        return nameList;
     }
 
-    public void reactToButton(){
-        System.out.println("Thanks for clicking test!");
+    public void reactToButton(String selectedString){
+        System.out.println("Thanks for clicking test! --> " + selectedString);
+		description = selectedString;
     }
 
     public String getNewDescription(){
         //return "this would normally be a description pulled from the model of the Dungeon level.";
-        return String.join("\n", getNameList());
+        return description;
     }
 
 }

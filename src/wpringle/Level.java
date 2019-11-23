@@ -196,4 +196,10 @@ public final class Level {
         return desc;
     }
 
+	// getter and setter methods below
+	public ArrayList<Chamber> getChamberList() {
+		return myChambers;
+	}
+	
+	
 }

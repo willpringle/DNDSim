@@ -20,28 +20,48 @@ import javafx.stage.Stage;
 
 
 public class GuiDemo<toReturn> extends Application {
-    /* Even if it is a GUI it is useful to have instance variables
-    so that you can break the processing up into smaller methods that have
-    one responsibility.
-     */
+    /**
+	 * Controller instance variable. Used so the GUI can interface with the rest
+	 * of the program.
+	 */
     private Controller theController;
-    private BorderPane root;  //the root element of this GUI
+	
+	/**
+	 * Root element of this GUI.
+	 */
+    private BorderPane root;
+	
+	/**
+	 * Popup used for the descriptions.
+	 */
     private Popup descriptionPane;
-    private Stage primaryStage;  //The stage that is passed in on initialization
+	
+	/**
+	 * The stage that is passed in on initialization.
+	 */
+    private Stage primaryStage;
+	
+	private String selectedString;
 
     /*a call to start replaces a call to the constructor for a JavaFX GUI*/
     @Override
     public void start(Stage assignedStage) {
-        /*Initializing instance variables */
+        /* Initializing instance variables */
         theController = new Controller(this);
         primaryStage = assignedStage;
-        /*Border Panes have  top, left, right, center and bottom sections */
+		
+		//
+		selectedString = "";
+		
+        /* Border Panes have  top, left, right, center and bottom sections */
         root = setUpRoot();
-        descriptionPane = createPopUp(200, 300, "Example Description of something");
-        Scene scene = new Scene(root, 300, 300);
-        primaryStage.setTitle("Hello GUI Demo");
+        descriptionPane = createPopUp(200, 300, "please click on a space");
+        Scene scene = new Scene(root, 600, 300);
+        primaryStage.setTitle("Dungeon");
         primaryStage.setScene(scene);
         primaryStage.show();
+		
+		
 
     }
 
@@ -63,6 +83,7 @@ public class GuiDemo<toReturn> extends Application {
         temp.setPrefHeight(150);
         temp.setOnMouseClicked((MouseEvent event)->{
             System.out.println("clicked on " + temp.getSelectionModel().getSelectedItem());
+			selectedString = (String) temp.getSelectionModel().getSelectedItem();
         });
 
         return temp;
@@ -82,7 +103,7 @@ public class GuiDemo<toReturn> extends Application {
 
         Button firstButton = createButton("Hello world", "-fx-background-color: #ff0000; -fx-background-radius: 10, 10, 10, 10;");
         firstButton.setOnAction((ActionEvent event) -> {
-            theController.reactToButton();
+            theController.reactToButton(selectedString);
         });
         temp.getChildren().add(firstButton);
 
@@ -91,6 +112,7 @@ public class GuiDemo<toReturn> extends Application {
          */
         Button showButton = createButton("Show Description", "-fx-background-color: #FFFFFF; ");
         showButton.setOnAction((ActionEvent event) -> {
+			
             descriptionPane.show(primaryStage);
         });
         temp.getChildren().add(showButton);
@@ -114,7 +136,6 @@ public class GuiDemo<toReturn> extends Application {
         popup.setY(y);
         TextArea textA = new TextArea(text);
         popup.getContent().addAll(textA);
-        textA.setStyle(" -fx-background-color: white;");
         textA.setMinWidth(80);
         textA.setMinHeight(50);
         return popup;
@@ -229,6 +250,10 @@ public class GuiDemo<toReturn> extends Application {
 //        return toReturn;
 //    }
 
+	/**
+	 * Weird second main method that I dont fully understand how it works.
+	 * @param agrs, the arguments for the program.
+	 */
     public static void main(String[] args) {
         launch(args);
     }
