@@ -19,27 +19,10 @@ import javafx.stage.Stage;
 
 
 public class GuiDemo<toReturn> extends Application {
-    /**
-	 * Controller instance variable. Used so the GUI can interface with the rest
-	 * of the program.
-	 */
     private Controller theController;
-	
-	/**
-	 * Root element of this GUI.
-	 */
     private BorderPane root;
-	
-	/**
-	 * Popup used for the descriptions.
-	 */
     private DescriptionPopup descriptionPane;
-	
-	/**
-	 * The stage that is passed in on initialization.
-	 */
     private Stage primaryStage;
-	
 	private String selectedString;
 
     /*a call to start replaces a call to the constructor for a JavaFX GUI*/
@@ -59,9 +42,6 @@ public class GuiDemo<toReturn> extends Application {
         primaryStage.setTitle("Dungeon");
         primaryStage.setScene(scene);
         primaryStage.show();
-		
-		
-
     }
 
     private BorderPane setUpRoot() {
@@ -80,10 +60,15 @@ public class GuiDemo<toReturn> extends Application {
         ListView temp = new ListView<String>(spaces);
         temp.setPrefWidth(150);
         temp.setPrefHeight(150);
+		
+		// what happens when the thing is selected
         temp.setOnMouseClicked((MouseEvent event)->{
             System.out.println("clicked on " + temp.getSelectionModel().getSelectedItem());
 			selectedString = (String) temp.getSelectionModel().getSelectedItem();
-			descriptionPane.setText(selectedString);
+			
+			// call the controller to ask for what chamber that is and its description
+			theController.setCurrentSpace(selectedString);
+			descriptionPane.setText(theController.getNewDescription());
         });
 
         return temp;
@@ -92,12 +77,6 @@ public class GuiDemo<toReturn> extends Application {
     private Node setButtonPanel() {
         /*this method should be broken down into even smaller methods, maybe one per button*/
         VBox temp = new VBox();
-        temp.setStyle("-fx-padding: 10;" +
-                "-fx-border-style: solid inside;" +
-                "-fx-border-width: 2;" +
-                "-fx-border-insets: 5;" +
-                "-fx-border-radius: 5;" +
-                "-fx-border-color: blue;");
         /*This button listener is an example of a button changing something
         in the controller but nothing happening in the view */
 
@@ -107,9 +86,7 @@ public class GuiDemo<toReturn> extends Application {
         });
         temp.getChildren().add(firstButton);
 
-        /*This button listener is only changing the view and doesn't need
-        to contact the controller
-         */
+        
         Button showButton = createButton("Show Description", "-fx-background-color: #FFFFFF; ");
         showButton.setOnAction((ActionEvent event) -> {
             descriptionPane.getPopup().show(primaryStage);
@@ -150,93 +127,6 @@ public class GuiDemo<toReturn> extends Application {
         }
 
     }
-
-//    private GridPane createGridPanel() {
-//        GridPane t = new GridPane();
-//        /*t.setStyle(
-//                "-fx-border-style: solid inside;" +
-//                        "-fx-border-width: 2;" +
-//                        "-fx-border-insets: 1;" +
-//                        "-fx-border-radius: 9;" +
-//                        "-fx-border-color: black;");*/
-//        Node[] tiles = makeTiles();  //this should be a roomview object
-//        t.add(tiles[0],0,0,1,1);
-//        t.add(tiles[1],0,1,1,1);
-//        t.add(tiles[2],0,2,1,1);
-//        t.add(tiles[3],0,3,1,1);
-//        t.add(tiles[4],1,0,1,1);
-//        t.add(tiles[5],1,1,1,1);
-//        t.add(tiles[6],1,2,1,1);
-//        t.add(tiles[7],1,3,1,1);
-//        t.add(tiles[8],2,0,1,1);
-//        t.add(tiles[9],2,1,1,1);
-//        t.add(tiles[10],2,2,1,1);
-//        t.add(tiles[11],2,3,1,1);
-//        t.add(tiles[12],3,0,1,1);
-//        t.add(tiles[13],3,1,1,1);
-//        t.add(tiles[14],3,2,1,1);
-//        t.add(tiles[15],3,3,1,1);
-//        //t.setHgap(0);
-//        //t.setVgap(0);
-//          return t;
-//    }
-
-//    private TilePane createTilePanel() {
-//        TilePane t = new TilePane();
-//        t.setStyle(
-//                "-fx-border-style: solid inside;" +
-//                        "-fx-border-width: 2;" +
-//                        "-fx-border-insets: 1;" +
-//                        "-fx-border-radius: 9;" +
-//                        "-fx-border-color: black;");
-//        Node[] tiles = makeTiles();  //this should be a roomview object
-//        int len = tiles.length/4; //hacky way to make a 4x4
-//        t.setOrientation(Orientation.HORIZONTAL);
-//        t.setTileAlignment(Pos.CENTER_LEFT);
-//        t.setHgap(0);
-//        t.setVgap(0);
-//        t.setPrefColumns(4);
-//        t.setMaxWidth(4 *50);  //should be getting the size from the roomview object
-//        ObservableList list = t.getChildren();
-//        list.addAll(tiles);  //write a method that adds the roomview objects
-//        return t;
-//    }
-
-//    private Node[] makeTiles() {
-//    String floor = "/res/floor.png";
-//    String treasure = "/res/tres.png";
-//
-//        Node[] toReturn = {
-//                floorFactory(floor),
-//                floorFactory(floor),
-//                floorFactory(floor),
-//                floorFactory(floor),
-//                floorFactory(floor),
-//                floorFactory(floor),
-//                floorFactory(treasure),
-//                floorFactory(floor),
-//                floorFactory(floor),
-//                floorFactory(floor),
-//                floorFactory(floor),
-//                floorFactory(floor),
-//                floorFactory(floor),
-//                floorFactory(floor),
-//                floorFactory(floor),
-//                floorFactory(floor)
-//            };
-//
-//        return toReturn;
-//}
-//
-//    public Node floorFactory(String img) {
-//        Image floor = new Image(getClass().getResourceAsStream(img));
-//        Label toReturn = new Label();
-//        ImageView imageView = new ImageView(floor);
-//        imageView.setFitWidth(50);
-//        imageView.setFitHeight(50);
-//        toReturn.setGraphic(imageView);
-//        return toReturn;
-//    }
 
 	/**
 	 * Weird second main method that I dont fully understand how it works.
