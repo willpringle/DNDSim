@@ -83,6 +83,7 @@ public class GuiDemo<toReturn> extends Application {
         temp.setOnMouseClicked((MouseEvent event)->{
             System.out.println("clicked on " + temp.getSelectionModel().getSelectedItem());
 			selectedString = (String) temp.getSelectionModel().getSelectedItem();
+			descriptionPane.setText(selectedString);
         });
 
         return temp;
@@ -111,15 +112,15 @@ public class GuiDemo<toReturn> extends Application {
          */
         Button showButton = createButton("Show Description", "-fx-background-color: #FFFFFF; ");
         showButton.setOnAction((ActionEvent event) -> {
-			
             descriptionPane.getPopup().show(primaryStage);
         });
         temp.getChildren().add(showButton);
+		
         /*this button listener is an example of getting data from the controller */
         Button hideButton = createButton("Hide Description", "-fx-background-color: #FFFFFF; ");
         hideButton.setOnAction((ActionEvent event) -> {
             descriptionPane.getPopup().hide();
-            changeDescriptionText(theController.getNewDescription());
+//            changeDescriptionText(theController.getNewDescription());
         });
         temp.getChildren().add(hideButton);
         return temp;
@@ -137,6 +138,7 @@ public class GuiDemo<toReturn> extends Application {
         return btn;
     }
 
+	// ? what this do?
     private void changeDescriptionText(String text) {
         ObservableList<Node> list = descriptionPane.getPopup().getContent();
         for (Node t : list) {

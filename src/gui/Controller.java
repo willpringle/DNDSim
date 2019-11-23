@@ -7,6 +7,7 @@ public class Controller {
 	private Level myLevel;
 	private GuiDemo myGui;
 	private String description;
+	private Chamber currentChamber;
 
     public Controller (GuiDemo theGui) {
         myGui = theGui;
@@ -32,13 +33,24 @@ public class Controller {
     }
 
     public void reactToButton(String selectedString){
-        System.out.println("Thanks for clicking test! --> " + selectedString);
+        System.out.println("react to buttpn + " + selectedString);
 		description = selectedString;
     }
 
     public String getNewDescription(){
         //return "this would normally be a description pulled from the model of the Dungeon level.";
-        return description;
+        return currentChamber.getDescription();
     }
+	
+	public void setCurrentSpace(String name) {
+		int numChambers = myLevel.getChamberList().size();
+		
+		for (int i = 0; i < numChambers; i++) {
+			if (name.equals("Chamber " + i)) {
+				currentChamber = myLevel.getChamberList().get(i);
+			}
+		}
+		
+	}
 
 }
