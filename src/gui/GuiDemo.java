@@ -1,4 +1,5 @@
 package gui;
+
 import javafx.collections.FXCollections;
 import javafx.application.Application;
 import javafx.collections.ObservableList;
@@ -16,7 +17,7 @@ import javafx.scene.image.ImageView;
 import javafx.scene.control.ListView;
 import javafx.scene.layout.*;
 import javafx.stage.Stage;
-
+import java.util.ArrayList;
 
 public class GuiDemo<toReturn> extends Application {
     private Controller theController;
@@ -24,6 +25,11 @@ public class GuiDemo<toReturn> extends Application {
     private DescriptionPopup descriptionPane;
     private Stage primaryStage;
 	private String selectedString;
+	private String selectedDoor;
+	
+	private TextArea textbox; // textbox in the center of the program
+	private ArrayList<String> myDoors;
+	ListView doorList;
 
     /*a call to start replaces a call to the constructor for a JavaFX GUI*/
     @Override
@@ -32,8 +38,11 @@ public class GuiDemo<toReturn> extends Application {
         theController = new Controller(this);
         primaryStage = assignedStage;
 		
-		//
+		// 
 		selectedString = "";
+		selectedDoor = "";
+		
+		myDoors = new ArrayList<>();
 		
         /* Border Panes have  top, left, right, center and bottom sections */
         root = setUpRoot();
@@ -45,20 +54,30 @@ public class GuiDemo<toReturn> extends Application {
     }
 
     private BorderPane setUpRoot() {
+		// borderpane temp
         BorderPane temp = new BorderPane();
+		
+		// bottom
         temp.setTop(new Label("The name or identifier of the thing below"));
+		
+		// right
         Node buttons = setButtonPanel();  //separate method for the left section
         temp.setRight(buttons);
+		
+		// left
         ObservableList<String> hydraList = FXCollections.observableArrayList(theController.getNameList());
         temp.setLeft(createListView(hydraList));
-        GridPane room = new ChamberView(4,4);
-        temp.setCenter(room);
+//        GridPane room = new ChamberView(4,4);
+
+		// center
+		textbox = new TextArea();
+        temp.setCenter(textbox);
         return temp;
     }
 
     private Node createListView(ObservableList<String> spaces){
         ListView temp = new ListView<String>(spaces);
-        temp.setPrefWidth(150);
+        temp.setPrefWidth(100);
         temp.setPrefHeight(150);
 		
 		// what happens when the thing is selected
@@ -69,63 +88,78 @@ public class GuiDemo<toReturn> extends Application {
 			// call the controller to ask for what chamber that is and its description
 			theController.setCurrentSpace(selectedString);
 			descriptionPane.setText(theController.getNewDescription());
+			textbox.setText(theController.getNewDescription());
+			
+			// set up the doors
+			myDoors = theController.getDoors();
+			
         });
 
         return temp;
     }
 
+	// button panel on the right side
     private Node setButtonPanel() {
         /*this method should be broken down into even smaller methods, maybe one per button*/
         VBox temp = new VBox();
-        /*This button listener is an example of a button changing something
-        in the controller but nothing happening in the view */
-
-        Button firstButton = createButton("Hello world", "-fx-background-color: #ff0000; -fx-background-radius: 10, 10, 10, 10;");
-        firstButton.setOnAction((ActionEvent event) -> {
-            theController.reactToButton(selectedString);
-        });
-        temp.getChildren().add(firstButton);
-
         
-        Button showButton = createButton("Show Description", "-fx-background-color: #FFFFFF; ");
+		
+		
+		
+		
+		// edit chamber
+        Button showButton = createButton("Edit Space", "-fx-background-color: #FFFFFF; ");
         showButton.setOnAction((ActionEvent event) -> {
             descriptionPane.getPopup().show(primaryStage);
         });
         temp.getChildren().add(showButton);
 		
-        /*this button listener is an example of getting data from the controller */
-        Button hideButton = createButton("Hide Description", "-fx-background-color: #FFFFFF; ");
+		
+		
+		
+		
+        // save and close chamber edit box
+        Button hideButton = createButton("Save Edits", "-fx-background-color: #FFFFFF; ");
         hideButton.setOnAction((ActionEvent event) -> {
             descriptionPane.getPopup().hide();
-//            changeDescriptionText(theController.getNewDescription());
+			System.out.println(descriptionPane.getText());
         });
         temp.getChildren().add(hideButton);
-        return temp;
+        
+		
+		
+		
+		
+		// setup the doorlist listview
+		myDoors.add("Hello 1");
+		myDoors.add("Door 23");
+		
+		ObservableList<String> names = FXCollections.observableArrayList(myDoors);
+		
+		doorList = new ListView<String>(names);
+		doorList.setPrefWidth(100);
+		
+		// what happens when the thing is selected
+        doorList.setOnMouseClicked((MouseEvent event)->{
+            System.out.println("cl icked on " + doorList.getSelectionModel().getSelectedItem());
+			selectedDoor = (String) doorList.getSelectionModel().getSelectedItem();
 
+        });
+		
+		temp.getChildren().add(doorList);
+
+
+
+
+
+		return temp;
     }
 
-
-    /*generic button creation method ensure that all buttons will have a
-    similar style and means that the style only need to be in one place
-     */
+	// generic button maker
     private Button createButton(String text, String format) {
         Button btn = new Button();
         btn.setText(text);
-        btn.setStyle("");
         return btn;
-    }
-
-	// ? what this do?
-    private void changeDescriptionText(String text) {
-        ObservableList<Node> list = descriptionPane.getPopup().getContent();
-        for (Node t : list) {
-            if (t instanceof TextArea) {
-                TextArea temp = (TextArea) t;
-                temp.setText(text);
-            }
-
-        }
-
     }
 
 	/**

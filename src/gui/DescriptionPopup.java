@@ -29,4 +29,8 @@ public class DescriptionPopup {
 		textA.setText(text);
 	}
 	
+	public String getText() {
+		return textA.getText();
+	}
+	
 }
