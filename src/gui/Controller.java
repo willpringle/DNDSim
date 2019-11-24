@@ -58,7 +58,7 @@ public class Controller {
 			return null;
 		}
 		
-		ArrayList<Door> doors = new ArrayList<>();
+		ArrayList<Door> doors =  new ArrayList<>();
 		ArrayList<String> names = new ArrayList<>();
 		
 		for (int i = 0; i < doors.size(); i++) {
@@ -66,6 +66,10 @@ public class Controller {
 		}
 		
 		return names;
+	}
+	
+	public void setChamberDescription(String name) {
+		currentChamber.setString(name);
 	}
 
 }

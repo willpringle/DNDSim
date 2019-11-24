@@ -1,9 +1,10 @@
 package wpringle;
 
 import java.util.ArrayList;
+import java.io.Serializable;
 
 /** . */
-public abstract class Space {
+public abstract class Space implements Serializable {
 
     /** @return description. */
     public abstract  String getDescription();
@@ -20,5 +21,10 @@ public abstract class Space {
      *  @return the array of doors.
      */
     public abstract ArrayList<Door> getDoors();
+	
+	/**
+     *  @param the new description for the thing.
+     */
+	public abstract void setString(String newDescription);
 
 }

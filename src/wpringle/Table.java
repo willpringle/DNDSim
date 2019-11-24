@@ -1,7 +1,9 @@
 package wpringle;
 
+import java.io.Serializable;
+
 /** . */
-public final class Table {
+public final class Table implements Serializable {
 
     /** . */
     public Table() {

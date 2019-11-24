@@ -3,6 +3,7 @@ package wpringle;
 import dnd.models.Monster;
 import java.util.HashMap;
 import java.util.ArrayList;
+import java.io.Serializable;
 /*
 A passage begins at a door and ends at a door.  It may have many
 other doors along the way
@@ -11,7 +12,7 @@ You will need to keep track of which door is the "beginning" of the
 passage so that you know how to
 */
 
-public final class Passage extends Space {
+public final class Passage extends Space implements Serializable {
     // these instance variables are suggestions only
     // you can change them if you wish.
 
@@ -23,6 +24,8 @@ public final class Passage extends Space {
     private ArrayList<Door> myDoors;
     /** . */
     private HashMap<PassageSection, Door> doorMap;
+	
+	private String myDescription;
 
     /** constructor. */
     public Passage() {
@@ -30,6 +33,7 @@ public final class Passage extends Space {
         numSections = 0;
         myDoors = new ArrayList<Door>();
         doorMap = new HashMap<>();
+		myDescription = null;
     }
 
     /**
@@ -101,35 +105,39 @@ public final class Passage extends Space {
     public String getDescription() {
         String description;
         int numDoors = 0;
+		
+		if (myDescription == null) {
 
-        description = "PASSAGE\nPassage broken down into " + numSections
-        + " sections with " +  this.getNumChambers() + " Chambers\n";
+			description = "PASSAGE\nPassage broken down into " + numSections
+			+ " sections with " +  this.getNumChambers() + " Chambers\n";
 
-        // add the description of each section
-        for (int i = 0; i < numSections; i++) {
-            description = description
-            + mySections.get(i).getDescription()
-            + "\n";
+			// add the description of each section
+			for (int i = 0; i < numSections; i++) {
+				description = description
+				+ mySections.get(i).getDescription()
+				+ "\n";
 
-            // add monster and everything
-            if (mySections.get(i).getMonster() != null) {
-                description = description
-                + mySections.get(i).getMonster().getDescription() + "\n";
-            }
+				// add monster and everything
+				if (mySections.get(i).getMonster() != null) {
+					description = description
+					+ mySections.get(i).getMonster().getDescription() + "\n";
+				}
 
-            // print the chamber if there is one
-            if (mySections.get(i).getChamberDoor()) {
-                description = description + "\n"
-                + myDoors.get(numDoors).getDescription(); // not i
-                numDoors++;
-            }
-        }
+				// print the chamber if there is one
+				if (mySections.get(i).getChamberDoor()) {
+					description = description + "\n"
+					+ myDoors.get(numDoors).getDescription(); // not i
+					numDoors++;
+				}
+			}
 
-        description = description + "\n";
+			description = description + "\n";
 
+			myDescription = description;
+		
+		}
 
-
-        return description;
+        return myDescription;
     }
 
     // I want to delete this method.
@@ -177,4 +185,9 @@ public final class Passage extends Space {
             this.addPassageSection(new PassageSection(19));
         }
     }
+	
+	@Override
+	public void setString(String newDescription) {
+		myDescription = newDescription;
+	}
 }

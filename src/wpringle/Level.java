@@ -8,8 +8,9 @@ package wpringle;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Collections;
+import java.io.Serializable;
 
-public final class Level {
+public final class Level implements Serializable {
 
     /**
      * List of all the chambers.

@@ -3,8 +3,9 @@ package wpringle;
 import dnd.models.Trap;
 import java.util.ArrayList;
 import java.util.Random;
+import java.io.Serializable;
 
-public class Door {
+public class Door implements Serializable {
 
     /** Boolean value on whether door is open or closed. */
     private boolean open;
@@ -18,6 +19,8 @@ public class Door {
     private Trap myTrap;
     /** ArrayList of spaces. */
     private ArrayList<Space> mySpaces;
+	
+	private String myDescription;
 
     /** constructor. */
     public Door() {
@@ -35,6 +38,8 @@ public class Door {
 
         // space stuff
         mySpaces = new ArrayList<Space>();
+		
+		myDescription = null;
 
     }
 
@@ -169,32 +174,38 @@ public class Door {
     /** @return description. */
     public String getDescription() {
         String description;
+		
+		if (myDescription == null) {
 
-        // print the header
-        description = addFormatting();
-        description = addLine(description, "DOOR\n");
+			// print the header
+			description = addFormatting();
+			description = addLine(description, "DOOR\n");
 
-        // add further details
-        if (trapped) {
-            description = addLine(description, "There is a trap:"
-            + myTrap.getDescription() + "\n");
-        }
+			// add further details
+			if (trapped) {
+				description = addLine(description, "There is a trap:"
+				+ myTrap.getDescription() + "\n");
+			}
 
-        if (archway) {
-            description = addLine(description, "Actually its an archway\n");
-        }
+			if (archway) {
+				description = addLine(description, "Actually its an archway\n");
+			}
 
-        if (open) {
-            description = addLine(description, "The door is open\n");
-        } else {
-            description = addLine(description, "The door is closed\n");
-        }
+			if (open) {
+				description = addLine(description, "The door is open\n");
+			} else {
+				description = addLine(description, "The door is closed\n");
+			}
 
-        if (locked) {
-            description = addLine(description, "The door is locked\n");
-        }
+			if (locked) {
+				description = addLine(description, "The door is locked\n");
+			}
+			
+			myDescription = description;
+			
+		}
 
-        return description;
+        return myDescription;
     }
 
     /** @return line. */
@@ -218,5 +229,9 @@ public class Door {
     private String addLine(final String input, final String text) {
         return input + "D\t" + text;
     }
+	
+	public void setString(String newDescription) {
+		myDescription = newDescription;
+	}
 
 }

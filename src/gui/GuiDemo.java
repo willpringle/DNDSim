@@ -122,7 +122,7 @@ public class GuiDemo<toReturn> extends Application {
         Button hideButton = createButton("Save Edits", "-fx-background-color: #FFFFFF; ");
         hideButton.setOnAction((ActionEvent event) -> {
             descriptionPane.getPopup().hide();
-			System.out.println(descriptionPane.getText());
+			theController.setChamberDescription(descriptionPane.getText());
         });
         temp.getChildren().add(hideButton);
         
@@ -131,8 +131,7 @@ public class GuiDemo<toReturn> extends Application {
 		
 		
 		// setup the doorlist listview
-		myDoors.add("Hello 1");
-		myDoors.add("Door 23");
+		myDoors.add("Hello 1");myDoors.add("Door 23");
 		
 		ObservableList<String> names = FXCollections.observableArrayList(myDoors);
 		

@@ -3,10 +3,11 @@ package wpringle;
 import dnd.models.Monster;
 import java.util.ArrayList;
 import java.util.Random;
+import java.io.Serializable;
 
 /* Represents a 10 ft section of passageway */
 
-public final class PassageSection {
+public final class PassageSection implements Serializable {
 
     /** . */
     private ArrayList<Door> myDoors;

@@ -8,9 +8,10 @@ import dnd.models.Exit;
 import java.util.ArrayList;
 import java.util.Random;
 import dnd.exceptions.NotProtectedException;
+import java.io.Serializable;
 
 
-public final class Chamber extends Space {
+public final class Chamber extends Space implements Serializable {
 
     /** . */
     private ChamberContents myContents;
@@ -26,6 +27,8 @@ public final class Chamber extends Space {
     private ArrayList<Exit> myExits;
     /** . */
     private int numExits;
+	
+	private String myDescription;
 
     /** Constructor. */
     public Chamber() {
@@ -82,6 +85,8 @@ public final class Chamber extends Space {
         for (int i = 0; i < numExits; i++) {
             myDoors.add(new Door());
         }
+		
+		myDescription = null;
 
     }
 
@@ -180,25 +185,32 @@ public final class Chamber extends Space {
     public String getDescription() {
         String description;
         String protectedText = "";
+		
+		if (myDescription == null) {
 
-        // add the header
-        description = addFormatting();
+			// add the header
+			description = addFormatting();
 
-        // add room type and shape description
-        description = addLine(description, "CHAMBER\n");
-        description = description + getShapeDescription();
+			// add room type and shape description
+			description = addLine(description, "CHAMBER\n");
+			description = description + getShapeDescription();
 
-        // add monster and treausre information
-        description = description + getMonsterDescription();
-        description = description + getTreasureDescription();
+			// add monster and treausre information
+			description = description + getMonsterDescription();
+			description = description + getTreasureDescription();
 
-        // add the door information
-        description = description + getDoorsDescription();
+			// add the door information
+			description = description + getDoorsDescription();
 
-        // add the footer
-        description = description + addFormatting();
+			// add the footer
+			description = description + addFormatting();
+			
+			myDescription = description;
+		}
+		
+		
 
-        return description;
+        return myDescription;
     }
 
     private String getDoorsDescription() {
@@ -287,5 +299,12 @@ public final class Chamber extends Space {
     private String addLine(final String input, final String text) {
         return input + "☺\t" + text;
     }
+	
+	@Override
+	public void setString(String newDescription) {
+		myDescription = newDescription;
+		
+		System.out.println("test this thing test \n\n" + newDescription);
+	}
 
 }
