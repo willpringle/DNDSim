@@ -18,8 +18,12 @@ public class DungeonView extends GridPane {
 		length = len;
 		width = wid;
 		popup = new Popup();
-		
-		
+
     }
+	
+	public Popup getPopup() {
+		return popup;
+	}
+	
 
 }
