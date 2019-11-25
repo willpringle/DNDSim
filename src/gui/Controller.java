@@ -4,6 +4,8 @@ import java.util.ArrayList;
 import wpringle.*;
 import java.io.FileOutputStream;
 import java.io.ObjectOutputStream;
+import java.io.FileInputStream;
+import java.io.ObjectInputStream;
 import java.io.File;
 
 
@@ -82,5 +84,14 @@ public class Controller {
 		OOStream.writeObject(myLevel);
 		
 		OOStream.close();
+	}
+	
+	public void open(File theFile) throws Exception {
+		FileInputStream FIStream = new FileInputStream(theFile);
+		ObjectInputStream OIStream = new ObjectInputStream(FIStream);
+		
+		myLevel = (Level) OIStream.readObject();
+		
+		OIStream.close();
 	}
 }
