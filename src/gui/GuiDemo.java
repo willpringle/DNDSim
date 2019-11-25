@@ -18,6 +18,8 @@ import javafx.scene.control.ListView;
 import javafx.scene.layout.*;
 import javafx.stage.Stage;
 import java.util.ArrayList;
+import java.io.File;
+
 
 public class GuiDemo<toReturn> extends Application {
     private Controller theController;
@@ -64,8 +66,8 @@ public class GuiDemo<toReturn> extends Application {
 		// borderpane temp
         BorderPane temp = new BorderPane();
 		
-		// bottom
-        temp.setTop(new Label("Click on a chamber or passage to view its contents"));
+		// top
+        temp.setTop(saveAndLoad());
 		
 		// right
         Node buttons = setButtonPanel();  //separate method for the left section
@@ -83,10 +85,48 @@ public class GuiDemo<toReturn> extends Application {
         return temp;
     }
 
-	private Button setSaveToFileButton() {
-		Button btn = new Button("Save to File", 
+	private Node saveAndLoad() {
+		VBox temp = new VBox();
 		
 		
+		// to save to a file
+		Button save = createButton("Save to File", "-fx-background-color: #FFFFFF; ");
+		
+		save.setOnAction((ActionEvent event) -> {
+			File tempFile;
+			
+            tempFile = sp.promptUserSave();
+			
+			if (tempFile == null) {
+				// whoops
+			} else {
+				
+				try {
+					theController.save(tempFile);
+				} catch (Exception e) {
+					// whoopies
+				}
+				
+				
+				
+			}
+			
+        });
+		
+		temp.getChildren().add(save); 
+		
+		// to open a file
+		Button open = createButton("Open a File", "-fx-background-color: #FFFFFF; ");
+		
+		open.setOnAction((ActionEvent event) -> {
+            sp.promptUserOpen();
+			
+			
+        });
+		
+		temp.getChildren().add(open); 
+		
+		return temp;
 	}		
 
     private Node createListView(ObservableList<String> spaces){
@@ -141,9 +181,6 @@ public class GuiDemo<toReturn> extends Application {
         hideButton.setOnAction((ActionEvent event) -> {
             descriptionPane.getPopup().hide();
 			theController.setChamberDescription(descriptionPane.getText());
-			
-			//
-			sp.promptUser();
         });
         temp.getChildren().add(hideButton);
         

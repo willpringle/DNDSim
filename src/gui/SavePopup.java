@@ -26,14 +26,16 @@ public class SavePopup {
 		fc = new FileChooser();
 	}
 	
-	public void promptUser() {
+	public File promptUserSave() {
+		File selectedFile = fc.showSaveDialog(null);
+		
+		return selectedFile;
+	}
+	
+	public File promptUserOpen() {
 		File selectedFile = fc.showOpenDialog(null);
 		
-		if (selectedFile == null) {
-			System.out.println("bad file");
-		} else {
-			System.out.println("filename = " +  selectedFile.getAbsolutePath());
-		}
+		return selectedFile;
 	}
 	
 	// getter and setter methods

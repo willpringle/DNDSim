@@ -2,6 +2,10 @@ package gui;
 
 import java.util.ArrayList;
 import wpringle.*;
+import java.io.FileOutputStream;
+import java.io.ObjectOutputStream;
+import java.io.File;
+
 
 public class Controller {
 	private Level myLevel;
@@ -71,5 +75,12 @@ public class Controller {
 	public void setChamberDescription(String name) {
 		currentChamber.setString(name);
 	}
-
+	
+	public void save(File theFile) throws Exception {
+		FileOutputStream FOStream = new FileOutputStream(theFile);
+		ObjectOutputStream OOStream = new ObjectOutputStream(FOStream);
+		OOStream.writeObject(myLevel);
+		
+		OOStream.close();
+	}
 }
