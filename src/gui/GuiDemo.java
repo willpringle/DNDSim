@@ -58,7 +58,7 @@ public class GuiDemo<toReturn> extends Application {
         BorderPane temp = new BorderPane();
 		
 		// bottom
-        temp.setTop(new Label("The name or identifier of the thing below"));
+        temp.setTop(new Label("Click on a chamber or passage to view its contents"));
 		
 		// right
         Node buttons = setButtonPanel();  //separate method for the left section
@@ -71,6 +71,7 @@ public class GuiDemo<toReturn> extends Application {
 
 		// center
 		textbox = new TextArea();
+		textbox.setEditable(false); // make sure the user can't edit the text
         temp.setCenter(textbox);
         return temp;
     }
@@ -92,6 +93,10 @@ public class GuiDemo<toReturn> extends Application {
 			
 			// set up the doors
 			myDoors = theController.getDoors();
+			ObservableList<String> names = FXCollections.observableArrayList(myDoors);
+			doorList = new ListView<String>(names);
+			doorList.setPrefWidth(100);
+			
 			
         });
 
@@ -142,6 +147,7 @@ public class GuiDemo<toReturn> extends Application {
         doorList.setOnMouseClicked((MouseEvent event)->{
             System.out.println("cl icked on " + doorList.getSelectionModel().getSelectedItem());
 			selectedDoor = (String) doorList.getSelectionModel().getSelectedItem();
+			System.out.println("\n\n\n\nDoor 0 = " + myDoors.size() + "\n\n\n\n");
 
         });
 		

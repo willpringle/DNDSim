@@ -58,7 +58,7 @@ public class Controller {
 			return null;
 		}
 		
-		ArrayList<Door> doors =  new ArrayList<>();
+		ArrayList<Door> doors =  currentChamber.getDoors();
 		ArrayList<String> names = new ArrayList<>();
 		
 		for (int i = 0; i < doors.size(); i++) {
