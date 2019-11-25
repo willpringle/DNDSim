@@ -205,7 +205,8 @@ public class GuiDemo<toReturn> extends Application {
 		
 		
 		// setup the doorlist listview
-		myDoors.add("Hello 1");myDoors.add("Door 23");
+		myDoors.add("Door 0");
+		myDoors.add("Door 1");
 		
 		ObservableList<String> names = FXCollections.observableArrayList(myDoors);
 		
