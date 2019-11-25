@@ -29,7 +29,10 @@ public class GuiDemo<toReturn> extends Application {
 	
 	private TextArea textbox; // textbox in the center of the program
 	private ArrayList<String> myDoors;
-	ListView doorList;
+	private ListView doorList;
+	
+	private SavePopup sp;
+	
 
     /*a call to start replaces a call to the constructor for a JavaFX GUI*/
     @Override
@@ -43,6 +46,10 @@ public class GuiDemo<toReturn> extends Application {
 		selectedDoor = "";
 		
 		myDoors = new ArrayList<>();
+		
+		//
+		sp = new SavePopup(200,30);
+		
 		
         /* Border Panes have  top, left, right, center and bottom sections */
         root = setUpRoot();
@@ -75,6 +82,12 @@ public class GuiDemo<toReturn> extends Application {
         temp.setCenter(textbox);
         return temp;
     }
+
+	private Button setSaveToFileButton() {
+		Button btn = new Button("Save to File", 
+		
+		
+	}		
 
     private Node createListView(ObservableList<String> spaces){
         ListView temp = new ListView<String>(spaces);
@@ -128,6 +141,9 @@ public class GuiDemo<toReturn> extends Application {
         hideButton.setOnAction((ActionEvent event) -> {
             descriptionPane.getPopup().hide();
 			theController.setChamberDescription(descriptionPane.getText());
+			
+			//
+			sp.promptUser();
         });
         temp.getChildren().add(hideButton);
         
@@ -166,6 +182,7 @@ public class GuiDemo<toReturn> extends Application {
         btn.setText(text);
         return btn;
     }
+
 
 	/**
 	 * Weird second main method that I dont fully understand how it works.
