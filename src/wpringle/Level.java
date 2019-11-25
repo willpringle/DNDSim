@@ -202,5 +202,17 @@ public final class Level implements Serializable {
 		return myChambers;
 	}
 	
+	public ArrayList<Passage> getPassageList() {
+		int numPassages = myConnections.size();
+		ArrayList<Passage> myPassages = new ArrayList<>();
+		
+		for (int i = 0; i < numPassages; i++) {
+			myPassages.add(new Passage());
+			myPassages.get(i).makeSections();
+		}
+		
+		return myPassages;
+	}
+	
 	
 }

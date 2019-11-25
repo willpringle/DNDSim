@@ -13,7 +13,7 @@ public class Controller {
 	private Level myLevel;
 	private GuiDemo myGui;
 	private String description;
-	private Chamber currentChamber;
+	private Space currentChamber;
 
     public Controller (GuiDemo theGui) {
         myGui = theGui;
@@ -27,12 +27,21 @@ public class Controller {
 		ArrayList<Chamber> chambers = new ArrayList<>();
 		chambers = myLevel.getChamberList();
 		
+		// get the passages
+		ArrayList<Passage> passages = new ArrayList<>();
+		passages = myLevel.getPassageList();
+		
 		// create a vairbale to return
 		ArrayList<String> nameList = new ArrayList<>();
 		
 		// add the name of the chambers to the list
 		for (int i = 0; i < chambers.size(); i++) {
 			nameList.add("Chamber " + i);
+		}
+		
+		// add the name of the passage to the list
+		for (int i = 0; i < passages.size(); i++) {
+			nameList.add("Passage " + i);
 		}
 		
         return nameList;
@@ -50,10 +59,18 @@ public class Controller {
 	
 	public void setCurrentSpace(String name) {
 		int numChambers = myLevel.getChamberList().size();
+		int numPassages = myLevel.getPassageList().size();
+		int i = 0;
 		
-		for (int i = 0; i < numChambers; i++) {
+		for (i = 0; i < numChambers; i++) {
 			if (name.equals("Chamber " + i)) {
 				currentChamber = myLevel.getChamberList().get(i);
+			}
+		}
+		
+		for (int j = i; j < numPassages + i; j++) {
+			if (name.equals("Passage " + (j-i))) {
+				currentChamber = myLevel.getPassageList().get(j-i);
 			}
 		}
 		
@@ -77,6 +94,8 @@ public class Controller {
 	public void setChamberDescription(String name) {
 		currentChamber.setString(name);
 	}
+	
+	// writing to a file
 	
 	public void save(File theFile) throws Exception {
 		FileOutputStream FOStream = new FileOutputStream(theFile);
