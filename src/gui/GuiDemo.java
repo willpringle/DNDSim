@@ -119,7 +119,23 @@ public class GuiDemo<toReturn> extends Application {
 		Button open = createButton("Open a File", "-fx-background-color: #FFFFFF; ");
 		
 		open.setOnAction((ActionEvent event) -> {
-            sp.promptUserOpen();
+            File tempFile;
+			
+            tempFile = sp.promptUserOpen();
+			
+			if (tempFile == null) {
+				// whoops
+			} else {
+				
+				try {
+					theController.open(tempFile);
+				} catch (Exception e) {
+					// whoopies
+				}
+				
+				
+				
+			}
 			
 			
         });
